@@ -1,36 +1,44 @@
-class ToDoList:
-    def __init__(self):
-        self.tasks = []
+def main():
+    tasks = []
 
-    def add_task(self, task, time_frame=None):
-        self.tasks.append({"task": task, "time_frame": time_frame, "done": False})
+    while True:
+        print("\n===== To-Do List =====")
+        print("1. Add Task")
+        print("2. Show Tasks")
+        print("3. Mark Task as Done")
+        print("4. Exit")
 
-    def list_tasks(self):
-        for idx, task in enumerate(self.tasks, 1):
-            status = "✓" if task["done"] else "✗"
-            time_info = f" (Time: {task['time_frame']})" if task["time_frame"] else ""
-            print(f"{idx}. {task['task']}{time_info} - {status}")
+        choice = input("Enter your choice: ")
 
-    def mark_done(self, task_index):
-        if 0 < task_index <= len(self.tasks):
-            self.tasks[task_index - 1]["done"] = True
+        if choice == '1':
+            print()
+            n_tasks = int(input("How may task you want to add: "))
+            
+            for i in range(n_tasks):
+                task = input("Enter the task: ")
+                tasks.append({"task": task, "done": False})
+                print("Task added!")
 
-    def show_summary(self):
-        total_tasks = len(self.tasks)
-        completed_tasks = sum(1 for task in self.tasks if task["done"])
-        print(f"Total Tasks: {total_tasks}, Completed: {completed_tasks}")
+        elif choice == '2':
+            print("\nTasks:")
+            for index, task in enumerate(tasks):
+                status = "Done" if task["done"] else "Not Done"
+                print(f"{index + 1}. {task['task']} - {status}")
 
-    def calculate_productivity(self):
-        total_tasks = len(self.tasks)
-        completed_tasks = sum(1 for task in self.tasks if task["done"])
-        productivity = (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
-        print(f"Productivity: {productivity:.2f}%")
+        elif choice == '3':
+            task_index = int(input("Enter the task number to mark as done: ")) - 1
+            if 0 <= task_index < len(tasks):
+                tasks[task_index]["done"] = True
+                print("Task marked as done!")
+            else:
+                print("Invalid task number.")
+
+        elif choice == '4':
+            print("Exiting the To-Do List.")
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
-    todo = ToDoList()
-    todo.add_task("Complete assignment", "2 hours")
-    todo.add_task("Review cybersecurity notes")
-    todo.list_tasks()
-    todo.mark_done(1)
-    todo.show_summary()
-    todo.calculate_productivity()
+    main()
